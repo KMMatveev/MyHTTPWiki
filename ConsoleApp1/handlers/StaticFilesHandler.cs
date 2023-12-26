@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MyHTTPServer.attributes;
 using MyHTTPServer.config;
 using MyHTTPServer.models;
+using MyHTTPServer.services;
 
 namespace MyHTTPServer.handlers
 {
@@ -66,7 +67,7 @@ namespace MyHTTPServer.handlers
             string result = HttpServer.GetAppSettings().StaticFilePath;
             string rawPath = String.Join('/',rawArray);
             result += rawPath;
-            if (!rawPath.Contains('.') ) { result += "/index.html";  }
+            if (!rawPath.Contains('.')&& !rawPath.Contains('?')) { result += "/index.html";  }
             return result;
         }
 
@@ -149,8 +150,22 @@ namespace MyHTTPServer.handlers
 
             if (File.Exists(filePath))
             {
+                //var Basics = new BasicList(basic.SelectAllBasic());
+                //var Armors = new ArmorList(armor.SelectAllArmor().Where(a => a.basic_id == id).ToList());
+                //var Texts = new TextList(text.SelectAllText().Where(a => a.basic_id == id).ToList());
+                var Page = new
+                {
+                    Basics = basic.SelectAllBasic(),
+                    Armors = armor.SelectAllArmor(),
+                    Texts = text.SelectAllText(),
+                    Users = user.SelectAllUser()
+                };
                 Console.WriteLine("Finded source file");
-                byte[] buffer = File.ReadAllBytes(filePath);
+                var template = File.ReadAllText(filePath);
+                var result = template.Substitute(Page);
+                //result = result.Substitute(Armors);
+                //result = result.Substitute(Texts);
+                byte[] buffer = Encoding.UTF8.GetBytes(result);
                 response.ContentLength64 = buffer.Length;
                 using Stream output = response.OutputStream;
                 output.Write(buffer);

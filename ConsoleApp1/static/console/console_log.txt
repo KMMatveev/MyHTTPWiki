@@ -1,0 +1,20 @@
+Connected http://127.0.0.1:2323/
+Server started, write "stop" to stop server.
+find directory
+../../../static//admin/index.html
+Finded source file
+Request processed
+../../../static//console/index.html
+Finded source file
+Request processed
+../../../static//console_log.txt
+Can not find source file
+Error 404
+Request processed
+../../../static//console/index.html
+Finded source file
+Request processed
+../../../static//console/console_log.txt
+Finded source file
+Request processed
+

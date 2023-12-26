@@ -1,26 +1,123 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
     <title>Админка</title>
+    <style>
+        .inb {
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+            border-radius:10px;
+            font-size: 20px;
+        }
+        .block_fl {
+            float: left; /*Задаем обтекание*/
+            line-height: 1.5;/*Высота строки + верт. центрирования текста*/
+            font-size: 24px;
+            background: yellow;
+            color: black;
+            width: 23%; /*Фиксируем ширину блока*/
+            border: 1px solid black;
+            text-align: center; /*Центрируем текст по горизонтали*/
+        }
+        .id_width {
+            width: 5%
+        }
+        .f4_width {
+            width: 31%
+        }
+        .fcolor {
+            background: white;
+        }
+        .main {
+            display: block;
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-right: auto;
+        }
+        .text {
+            text-decoration: none;
+            font-stretch: condensed;
+            font-family: arial;
+        }
+        .btn {
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+
+            text-align: center;
+            font-size: 16px;
+
+            border-radius: 5px;
+            border: none;
+
+            background-color: cadetblue;
+
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+        .btn:hover{background-color: cornflowerblue;}
+        .btn:active{box-shadow:0 0 15px 4px rgba(0,0,0,0.3);}
+    </style>
+
 </head>
 <body>
-    <div class="container">
-        <h1>Админка</h1>
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Управление пользователями</h2>
-                <!-- Здесь может быть форма для поиска пользователей или список пользователей -->
-            </div>
-            <div class="col-md-4">
-                <h2>Управление контентом</h2>
-                <!-- Здесь может быть форма для добавления нового контента или список существующего контента -->
-            </div>
-            <div class="col-md-4">
-                <h2>Настройки</h2>
-                <!-- Здесь может быть форма для настройки админки -->
-            </div>
-        </div>
+<div class = "main text">
+
+
+
+    <div>
+    <h1>User</h1><br>
+    <div>
+        <div class="block_fl id_width fcolor">id</div>
+        <div class="block_fl fcolor">login</div>
+        <div class="block_fl fcolor">name</div>
+        <div class="block_fl fcolor">password</div>
+        <div class="block_fl fcolor">admin</div>
     </div>
+    @for(item in Users){ <div class="block_fl id_width"><a href="/admin/user/">@{item.user_id}</a></div><div class="block_fl">@{item.login}</div><div class="block_fl">@{item.name}</div><div class="block_fl">@{item.password}</div><div class="block_fl">@{item.admin}</div>}
+
+    <br><br>
+    </div>
+    <div><br><br>
+    <h1>Text</h1><br>
+    <div>
+        <div class="block_fl id_width fcolor">id</div>
+        <div class="block_fl fcolor">before</div>
+        <div class="block_fl fcolor">body</div>
+        <div class="block_fl fcolor">after</div>
+        <div class="block_fl fcolor">basic_id</div>
+    </div>
+    @for(item in Texts){ <div class="block_fl id_width"><a href="/admin/text/">@{item.text_id}</a></div><div class="block_fl">@{item.before}</div><div class="block_fl">@{item.body}</div><div class="block_fl">@{item.after}</div><div class="block_fl">@{item.basic_id}</div>}
+
+    <br><br>
+    </div>
+    <div><br><br>
+    <h1>Armor</h1><br>
+    <div>
+        <div class="block_fl id_width fcolor">id</div>
+        <div class="block_fl fcolor f4_width">armor_name</div>
+        <div class="block_fl fcolor f4_width">description</div>
+        <div class="block_fl fcolor f4_width">basic_id</div>
+    </div>
+    @for(item in Armors){ <div class="block_fl id_width fcolor"><a href="/admin/armor/">@{item.armor_id}</a></div><div class="block_fl fcolor f4_width">@{item.armor_name}</div><div class="block_fl fcolor f4_width">@{item.description}</div><div class="block_fl fcolor f4_width">@{item.basic_id}</div>}
+
+    <br><br>
+    </div>
+    <div>
+    <br><br>
+    <h1>Basic</h1><br>
+    <div>
+        <div class="block_fl id_width fcolor">id</div>
+        <div class="block_fl fcolor f4_width">name</div>
+        <div class="block_fl fcolor f4_width">description</div>
+        <div class="block_fl fcolor f4_width">img_link</div>
+    </div>
+    @for(item in Basics){ <div class="block_fl id_width fcolor"><a href="/admin/basic/">@{item.basic_id}</a></div><div class="block_fl fcolor f4_width">@{item.name}</div><div class="block_fl fcolor f4_width">@{item.description}</div><div class="block_fl fcolor f4_width">@{item.img_link}</div>}
+
+    <br><br>
+    </div>
+</div>
 </body>
 </html>

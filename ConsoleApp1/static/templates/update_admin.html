@@ -1,0 +1,93 @@
+<?php
+session_start();
+$hash = $_SESSION['hash'];
+session_abort();
+if (mb_strlen($hash) != 16){
+    header("Location: login.php");
+} else {
+    $my_sql = new mysqli('localhost', 'root', 'root', 'cartotheka');
+    $ishashcor = mysqli_query($my_sql, "SELECT * FROM `accounts` WHERE `hash` = '$hash'");
+    if (mysqli_num_rows($ishashcor) == 0){
+        header("Location: login.php");
+    }
+}
+?>
+<?php
+$id = $_GET['id'];
+
+$my_sql = new mysqli('localhost', 'root', 'root', 'cartotheka');
+$res = mysqli_fetch_array(mysqli_query($my_sql, "SELECT * FROM `info` WHERE `id` = '$id'"));
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить информацию</title>
+    <style>
+        .inb {
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+            border-radius:10px;
+            font-size: 20px;
+        }
+
+        .main {
+            display: block;
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-right: auto;
+        }
+        .text {
+            text-decoration: none;
+            font-stretch: condensed;
+            font-family: arial;
+        }
+        .btn {
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+
+            text-align: center;
+            font-size: 16px;
+
+            border-radius: 5px;
+            border: none;
+
+            background-color: cadetblue;
+
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+        .btn:hover{background-color: cornflowerblue;}
+        .t1 {
+            font-size: 16px;
+        }
+        .btn:active{box-shadow:0 0 15px 4px rgba(0,0,0,0.3);}
+        .m1 {
+            display: block;
+            width: 40%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class = "main text">
+    <h1>Изменить информацию</h1><br>
+    <form action="editor.php" method="post">
+        <input class="inb" name = "id" value = "10">
+        <br><br>
+        <input name = "login" class="inb" value = "ornuth">
+        <br><br>
+        <input name = "name" class="inb" value = "Климентий">
+        <br><br>
+        <input name = "password" class="inb" value = "ne24bf8vu3ne">
+        <br><br>
+        <input name = "admin" class="inb" value = "Нет">
+        <br><br>
+        <button class = "btn">Изменить</button>
+    </form>
+</div>
+</body>
+</html>

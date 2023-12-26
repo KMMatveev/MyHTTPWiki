@@ -89,6 +89,11 @@ namespace MyHTTPServer
                 while (!stop)
                 {
                     var context = await server.GetContextAsync();
+                    if (context.Request.Cookies["id"] != null)
+                        user_id = int.Parse(context.Request.Cookies["id"].Value);
+                    if (context.Request.Cookies["role"] != null)
+                        if(context.Request.Cookies["role"].Value=="admin")
+                            admin = true;
                     staticFilesHandler.HandleRequest(context);
                 }
             }

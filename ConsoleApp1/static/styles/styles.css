@@ -16228,6 +16228,188 @@ a.vplink:hover {
   width:100%;
   z-index:-2
 }
+:root {
+  --theme-body-dynamic-color-1:#fff;
+  --theme-body-dynamic-color-1--rgb:255,255,255;
+  --theme-body-dynamic-color-2:#e6e6e6;
+  --theme-body-dynamic-color-2--rgb:230,230,230;
+  --theme-page-dynamic-color-1:#000;
+  --theme-page-dynamic-color-1--rgb:0,0,0;
+  --theme-page-dynamic-color-1--inverted:#fff;
+  --theme-page-dynamic-color-1--inverted--rgb:255,255,255;
+  --theme-page-dynamic-color-2:#3a3a3a;
+  --theme-page-dynamic-color-2--rgb:58,58,58;
+  --theme-sticky-nav-dynamic-color-1:#fff;
+  --theme-sticky-nav-dynamic-color-1--rgb:255,255,255;
+  --theme-sticky-nav-dynamic-color-2:#e6e6e6;
+  --theme-sticky-nav-dynamic-color-2--rgb:230,230,230;
+  --theme-link-dynamic-color-1:#fff;
+  --theme-link-dynamic-color-1--rgb:255,255,255;
+  --theme-link-dynamic-color-2:#e6e6e6;
+  --theme-link-dynamic-color-2--rgb:230,230,230;
+  --theme-accent-dynamic-color-1:#fff;
+  --theme-accent-dynamic-color-1--rgb:255,255,255;
+  --theme-accent-dynamic-color-2:#e6e6e6;
+  --theme-accent-dynamic-color-2--rgb:230,230,230;
+  --theme-body-background-color:#362f1d;
+  --theme-body-background-color--rgb:54,47,29;
+  --theme-body-background-image:none;
+  --theme-body-background-image-full:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest?cb=20210813220210);
+  --theme-body-background-image-desktop:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/1280?cb=20210813220210);
+  --theme-body-background-image-large-desktop:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/1500?cb=20210813220210);
+  --theme-body-background-image-mobile:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/600?cb=20210813220210);
+  --theme-body-background-image-mobile-2x:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/1200?cb=20210813220210);
+  --theme-body-background-image-tablets:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/1024?cb=20210813220210);
+  --theme-body-background-image-tablets-2x:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b5/Site-background-light/revision/latest/scale-to-width-down/2048?cb=20210813220210);
+  --theme-body-text-color:#fff;
+  --theme-body-text-color--rgb:255,255,255;
+  --theme-body-text-color--hover:#cccccc;
+  --theme-sticky-nav-background-color:#2b3c3a;
+  --theme-sticky-nav-background-color--rgb:43,60,58;
+  --theme-sticky-nav-text-color:#fff;
+  --theme-sticky-nav-text-color--hover:#cccccc;
+  --theme-page-background-color:#dfe3e1;
+  --theme-page-background-color--rgb:223,227,225;
+  --theme-page-background-color--secondary:#d4d8d6;
+  --theme-page-background-color--secondary--rgb:212,216,214;
+  --theme-page-text-color:#3a3a3a;
+  --theme-page-text-color--rgb:58,58,58;
+  --theme-page-text-color--hover:#6d6d6d;
+  --theme-page-text-mix-color:#8d8f8e;
+  --theme-page-text-mix-color-95:#d7dbd9;
+  --theme-page-accent-mix-color:#70a0a2;
+  --theme-page-headings-font:'Rubik';
+  --theme-link-color:#2d6f67;
+  --theme-link-color--rgb:45,111,103;
+  --theme-link-color--hover:#0f2623;
+  --theme-link-label-color:#fff;
+  --theme-accent-color:#005c62;
+  --theme-accent-color--rgb:0,92,98;
+  --theme-accent-color--hover:#00bbc8;
+  --theme-accent-label-color:#fff;
+  --theme-border-color:#b6b9b7;
+  --theme-border-color--rgb:182,185,183;
+  --theme-alert-color:#bf0017;
+  --theme-alert-color--rgb:191,0,23;
+  --theme-alert-color--hover:#59000a;
+  --theme-alert-color--secondary:#bf0017;
+  --theme-alert-label:#fff;
+  --theme-warning-color:#bd6819;
+  --theme-warning-color--rgb:189,104,25;
+  --theme-warning-color--secondary:#af6017;
+  --theme-warning-label:#000;
+  --theme-success-color:#0c742f;
+  --theme-success-color--rgb:12,116,47;
+  --theme-success-color--secondary:#0c742f;
+  --theme-success-label:#fff;
+  --theme-message-color:#753369;
+  --theme-message-label:#fff;
+  --theme-community-header-color:#1e1e1e;
+  --theme-community-header-color--hover:#515151;
+  --theme-background-image-opacity:100%;
+  --theme-page-text-opacity-factor:0.85;
+  --theme-body-text-opacity-factor:0.7;
+  --theme-link-decoration:none;
+}
+.skin-fandomdesktop .CodeMirror {
+  --codemirror-yellow:#937c00;
+  --codemirror-light-blue:#0081d7;
+  --codemirror-blue:#007dea;
+  --codemirror-green:#1f8e00;
+  --codemirror-red:#e04a00;
+  --codemirror-dark-red:#a11;
+  --codemirror-purple:#80c;
+  --codemirror-pink:#de00de;
+  --codemirror-light-gray:#7d7d7d;
+  --codemirror-gray:#648282;
+}
+.mw-highlight {
+  --pygments-background:#d5d8d7;
+  --pygments-err:#e00000;
+  --pygments-c:#3a7575;
+  --pygments-k:#008000;
+  --pygments-o:#666;
+  --pygments-ch:#3a7575;
+  --pygments-cm:#3a7575;
+  --pygments-cp:#986200;
+  --pygments-cpf:#3a7575;
+  --pygments-c1:#3a7575;
+  --pygments-cs:#3a7575;
+  --pygments-gd:#a00000;
+  --pygments-gr:#e00000;
+  --pygments-gh:#000080;
+  --pygments-gi:#008100;
+  --pygments-go:#6e6e6e;
+  --pygments-gp:#000080;
+  --pygments-gu:#800080;
+  --pygments-gt:#04d;
+  --pygments-kc:#008000;
+  --pygments-kd:#008000;
+  --pygments-kn:#008000;
+  --pygments-kp:#008000;
+  --pygments-kr:#008000;
+  --pygments-kt:#b00040;
+  --pygments-m:#666;
+  --pygments-s:#ba2121;
+  --pygments-na:#647421;
+  --pygments-nb:#008000;
+  --pygments-nc:#00f;
+  --pygments-no:#800;
+  --pygments-nd:#a412ff;
+  --pygments-ni:#6d6d6d;
+  --pygments-ne:#cd362e;
+  --pygments-nf:#00f;
+  --pygments-nl:#727200;
+  --pygments-nn:#00f;
+  --pygments-nt:#008000;
+  --pygments-nv:#19177c;
+  --pygments-ow:#a412ff;
+  --pygments-w:#6e6e6e;
+  --pygments-mb:#666;
+  --pygments-mf:#666;
+  --pygments-mh:#666;
+  --pygments-mi:#666;
+  --pygments-mo:#666;
+  --pygments-sa:#ba2121;
+  --pygments-sb:#ba2121;
+  --pygments-sc:#ba2121;
+  --pygments-dl:#ba2121;
+  --pygments-sd:#ba2121;
+  --pygments-s2:#ba2121;
+  --pygments-se:#a55a1e;
+  --pygments-sh:#ba2121;
+  --pygments-si:#af4d74;
+  --pygments-sx:#008000;
+  --pygments-sr:#af4d74;
+  --pygments-s1:#ba2121;
+  --pygments-ss:#19177c;
+  --pygments-bp:#008000;
+  --pygments-fm:#00f;
+  --pygments-vc:#19177c;
+  --pygments-vg:#19177c;
+  --pygments-vi:#19177c;
+  --pygments-vm:#19177c;
+  --pygments-il:#666;
+}
+#content .infobox-imagearea .animated {
+  display:inline-flex;
+  align-items:center
+}
+#content .animated > *:not(.animated-active),
+#content .animated > .animated-subframe > *:not(.animated-active) {
+  display:none 
+}
+#content span.animated,
+#content span.animated.animated-visible > *,
+#content span.animated.animated-visible > .animated-subframe > * {
+  display:inline-block
+}
+#content div.animated.animated-visible > *,
+#content div.animated.animated-visible > .animated-subframe > * {
+  display:block
+}
+
+
 @media only screen and (max-width:767px) {
   body {
     --theme-body-background-image:var(--theme-body-background-image-mobile)
@@ -25096,7 +25278,7 @@ main.page__main::before {
   --ark-hovertext-text-color:var(--theme-accent-color);
   --ark-kibbletable-border-color:#ccc;
   --ark-kibbletable-background-color:#fff;
-  --ark-header-background-image:url(https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/f/fd/Site-background-light-top.png/revision/latest)
+  --ark-header-background-image:url(https://lh3.googleusercontent.com/pw/ABLVV84Yd_q-kNxxwfFF0Seb5InPYmaIyCGEUHXrH1awy_1w_ntKJX0-jUK7aFibmy0tqd3TfklUKATlCs3G6GRRgKNbu4uygK9WBny7ZbcVF_9XN33Bqxi3XuyPqLLXepDpLzzk88D5CNgLMc-HkRlEdo5D=w635-h999-s-no?authuser=0)
 }
 body.theme-fandomdesktop-light,
 .theme-fandomdesktop-light .main-container {

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        .inb {
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+            border-radius:10px;
+            font-size: 20px;
+        }
+        .main {
+            display: block;
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-right: auto;
+        }
+        .text {
+            text-decoration: none;
+            font-stretch: condensed;
+            font-family: arial;
+        }
+        .btn {
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+
+            text-align: center;
+            font-size: 16px;
+
+            border-radius: 5px;
+            border: none;
+
+            background-color: cadetblue;
+
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+        .btn:hover{background-color: cornflowerblue;}
+        .btn:active{box-shadow:0 0 15px 4px rgba(0,0,0,0.3);}
+    </style>
+
+</head>
+<body>
+<div class = "main text">
+    <h1>Регистрация</h1><br>
+    <form action="../Authorization/Registration" method="post">
+        <input class="inb" name = "login" id = "login" placeholder="Введите логин">
+        <br><br>
+        <input class="inb" name = "name" id = "name" placeholder="Введите Имя">
+        <br><font color="red"><p class = "cyrrilic"></p></font><br>
+        <input type="password" name = "pass" id = "password" class="inb" placeholder="Введите пароль">
+        <br><font color="red"><p class = "character-count"></p></font><br>
+        <button class = "btn">Зарегистрироваться</button>
+    </form>
+    <p class="character-count"></p>
+    <script>
+        function cyrrykic_check(text){
+            const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+            //alert("ff")
+            if (text == ""){
+                return false
+            }
+            if (!cyrillicPattern.test(text)){
+                //alert("fff")
+                return true
+            }
+
+            //alert("ffff")
+            return false
+        }
+        for (var i = 0; i < document.getElementsByName("pass").length; i++) {
+            document.getElementsByName("pass")[i].onkeyup = function (i) {
+                return function () {
+                    console.log(this);
+                    var text_max = 6;
+                    var text_length = this.value.length;
+                    if (Number(text_max) > Number(text_length)){
+                    document.getElementsByClassName("character-count")[i].innerHTML = "Минимальное количество символов: " + text_max;}
+                    else{
+                        document.getElementsByClassName("character-count")[i].innerHTML = "";
+                    }
+                };
+            }(i);
+        }
+        for (var i = 0; i < document.getElementsByName("name").length; i++) {
+            document.getElementsByName("name")[i].onkeyup = function (i) {
+                return function () {
+                    console.log(this);
+                    var text = this.value;
+                    //alert("fffff");
+                    if (cyrrykic_check(text)){
+                        document.getElementsByClassName("character-count")[i].innerHTML = "Введите имя на Кириллице";}
+                    else{
+                        document.getElementsByClassName("character-count")[i].innerHTML = "";
+                    }
+                };
+            }(i);
+        }
+    </script>
+</div>
+</body>
+</html>
