@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Npgsql;
+using MyHTTPServer.models;
 
 namespace MyHTTPServer.services
 {
@@ -33,46 +34,65 @@ namespace MyHTTPServer.services
                 '1'::integer, 'apple'::character varying, '12.12'::double precision, '1'::integer)
                 returning product_id;
             */
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             var type = elem.GetType();
             var tableName = type.Name; // Имя таблицы предполагается как имя класса
             var properties = type.GetProperties();
             var columnNames = string.Join(", ", properties.Select(p => p.Name));
             var values = string.Join(", ", properties.Select(p => $"'{p.GetValue(elem).ToString().Replace(',', '.')}'"));
-            var query = $"INSERT INTO public.{tableName} ({columnNames}) VALUES ({values}) returning product_id;";
+            var query = $"INSERT INTO public.{tableName}s ({columnNames}) VALUES ({values});";
             Console.WriteLine(query);
             NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-            connection.Close();
-            return result > 0;
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+
+                return result > 0;
+            }
+            catch { }
+            return false;
         }
         public bool Update<T>(T elem)
         {
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             var type = elem.GetType();
             var tableName = type.Name; // Имя таблицы предполагается как имя класса
             var properties = type.GetProperties();
-            int id = (int)type.GetProperty($"{tableName.Substring(0, tableName.Length - 1)}_id").GetValue(elem);
+            int id = (int)type.GetProperty($"{tableName}_id").GetValue(elem);
             var setClause = string.Join(", ", properties.Select(p => $"{p.Name} = '{p.GetValue(elem).ToString().Replace(',', '.')}'"));
-            var query = $"UPDATE {tableName} SET {setClause} WHERE {tableName.Substring(0, tableName.Length - 1)}_id = {id};";
+            var query = $"UPDATE {tableName}s SET {setClause} WHERE {tableName}_id = {id};";//.Substring(0, tableName.Length - 1)
             Console.WriteLine(query);
             NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-            connection.Close();
-            return result > 0;
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+
+                return result > 0;
+            }
+            catch { }
+            return false;
+            //connection.Close();
         }
 
         public bool Delete<T>(int id)
         {
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             var type = typeof(T);
             var tableName = type.Name; // Имя таблицы предполагается как имя класса
-            var query = $"DELETE FROM {tableName} WHERE {tableName.Substring(0,tableName.Length-1)}_id = {id};";
+            var query = $"DELETE FROM {tableName}s WHERE {tableName}_id = {id};";//.Substring(0,tableName.Length-1)
             Console.WriteLine(query);
             NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            int result = cmd.ExecuteNonQuery();
-            connection.Close();
-            return result > 0;
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+
+                return result > 0;
+            }
+            catch { }
+            return false;
         }
         public List<T> Select<T>(T elem)
         {
@@ -80,9 +100,10 @@ namespace MyHTTPServer.services
             var tableName = type.Name; // Имя таблицы предполагается как имя класса
             var properties = type.GetProperties();
             var whereClause = string.Join(" AND ", properties.Select(p => $"{p.Name} = '{p.GetValue(elem).ToString().Replace(',', '.')}'"));
-            var query = $"SELECT * FROM {tableName} WHERE {whereClause};";
+            var query = $"SELECT * FROM {tableName}s WHERE {whereClause};";
             Console.WriteLine(query);
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
             NpgsqlDataReader reader = cmd.ExecuteReader();
             List<T> results = new List<T>();
@@ -95,7 +116,7 @@ namespace MyHTTPServer.services
                 }
                 results.Add(obj);
             }
-            connection.Close();
+            //connection.Close();
             return results;
         }
         public T SelectById<T>(int id)
@@ -103,9 +124,10 @@ namespace MyHTTPServer.services
             var type = typeof(T);
             var tableName = type.Name; // Имя таблицы предполагается как имя класса
             var properties = type.GetProperties();
-            var query = $"SELECT * FROM {tableName} WHERE  \"Id\" = {id};";
+            var query = $"SELECT * FROM {tableName}s WHERE  \"Id\" = {id};";
             Console.WriteLine(query);
-            connection.Open();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
             NpgsqlDataReader reader = cmd.ExecuteReader();
             T result = Activator.CreateInstance<T>(); ;
@@ -117,16 +139,20 @@ namespace MyHTTPServer.services
                 }
                 break;
             }
-            connection.Close();
+            //connection.Close();
             return result;
         }
 
-         public NpgsqlDataReader UseCommand(string SQLCommand)
+        public NpgsqlDataReader UseCommand(string SQLCommand)
         {
+            if (connection.State == System.Data.ConnectionState.Open)
+                connection.Close();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
             var command=new NpgsqlCommand(SQLCommand, connection);
             var result = command.ExecuteReader();
 
-
+            //connection.Close();
             return result;
         }
 

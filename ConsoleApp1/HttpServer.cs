@@ -19,6 +19,8 @@ namespace MyHTTPServer
         private HttpListener server { get; set; }
         private static AppSettings _appSettings { get; set; }
         private bool stop {  get; set; }
+        public static int user_id { get; set; }
+        public static bool admin { get; set; } = false;
 
         public static AppSettings GetAppSettings()
         {
@@ -87,6 +89,11 @@ namespace MyHTTPServer
                 while (!stop)
                 {
                     var context = await server.GetContextAsync();
+                    if (context.Request.Cookies["id"] != null)
+                        user_id = int.Parse(context.Request.Cookies["id"].Value);
+                    if (context.Request.Cookies["role"] != null)
+                        if(context.Request.Cookies["role"].Value=="admin")
+                            admin = true;
                     staticFilesHandler.HandleRequest(context);
                 }
             }

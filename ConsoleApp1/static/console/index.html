@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Console</title>
+    <style>
+        .console {
+            margin-right: 20px;
+            margin-top: 20px;
+            width: 50%;
+            length: 50%;
+            background: #0F0F0F;
+        }
+         .inb {
+             padding:10px;
+             border:0;
+             box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+             border-radius:10px;
+             font-size: 20px;
+         }
+
+        .main {
+            display: block;
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-right: auto;
+        }
+        .text {
+            text-decoration: none;
+            font-stretch: condensed;
+            font-family: arial;
+        }
+        .btn {
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+
+            text-align: center;
+            font-size: 16px;
+
+            border-radius: 5px;
+            border: none;
+
+            background-color: cadetblue;
+
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+        .btn:hover{background-color: cornflowerblue;}
+        .t1 {
+            font-size: 16px;
+            background: #0F0F0F;
+            color:white;
+        }
+        .btn:active{box-shadow:0 0 15px 4px rgba(0,0,0,0.3);}
+        .m1 {
+            display: block;
+            width: 40%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<h1>Консоль</h1>
+
+    <textarea name = "txt" type = "text" rows="50" cols="100" name = "info" class="inb t1" readonly>
+        Console start reading
+    </textarea>
+    <script>
+    function ajax(a,b,c){//url,function,just a placeholder
+        c=new XMLHttpRequest;
+        c.open('GET',a);
+        c.onload=b;
+        c.send()
+    }
+
+    function alertTxt(){
+        alert(this.response)
+        document.getElementsByName("txt")[0].innerHTML = this.response;
+    }
+
+    window.onload=function(){
+        ajax('console/console_log.txt',alertTxt)
+    }
+    </script>
+</body>
+</html>

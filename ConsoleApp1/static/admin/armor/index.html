@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Armor</title>
+    <style>
+        .inb {
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+            border-radius:10px;
+            font-size: 20px;
+        }
+
+        .main {
+            display: block;
+            margin-left: 2%;
+            margin-top: 1%;
+            margin-right: auto;
+        }
+        .text {
+            text-decoration: none;
+            font-stretch: condensed;
+            font-family: arial;
+        }
+        .btn {
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+
+            text-align: center;
+            font-size: 16px;
+
+            border-radius: 5px;
+            border: none;
+
+            background-color: cadetblue;
+
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+        }
+        .btn:hover{background-color: cornflowerblue;}
+        .t1 {
+            font-size: 16px;
+        }
+        .btn:active{box-shadow:0 0 15px 4px rgba(0,0,0,0.3);}
+        .m1 {
+            display: block;
+            width: 40%;
+            height: 200px;
+        }
+    </style>
+</head>
+    <body>
+        <form action="../../ORM/UpdateArmor/armor" method="post">
+            <input name = "armor_id" class="inb" value = "armor_id">
+            <br><br>
+            <input name = "armor_id" class="inb" value = "armor_name">
+            <br><br>
+            <input name = "armor_id" class="inb" value = "description">
+            <br><br>
+            <input name = "armor_id" class="inb" value = "img_link">
+            <br><br>
+            <input name = "armor_id" class="inb" value = "basic_id">
+            <br><br>
+            <button type="submit" method="post" class = "btn">Update</button>
+        </form>
+        <br>
+            <form action="../../ORM/AddArmor/armor" method="post">
+            <input name = "armor_id" class="inb" placeholder="armor_id">
+            <br><br>
+            <input name = "armor_id" class="inb" placeholder = "armor_name">
+            <br><br>
+            <input name = "armor_id" class="inb" placeholder = "description">
+            <br><br>
+            <input name = "armor_id" class="inb" placeholder = "img_link">
+            <br><br>
+            <input name = "armor_id" class="inb" placeholder="basic_id">
+            <br><br>
+                <button type="submit" method="post" class = "btn">Create</button>
+            </form>
+            <br>
+            <form action="../../ORM/DeleteArmor/armor" method="post">
+            <input name = "armor_id" class="inb" placeholder = "armor_id">
+            <br><br>
+                <button type="submit" method="post" class = "btn">Delete</button>
+            </form>
+        
+    </body>
+</html>

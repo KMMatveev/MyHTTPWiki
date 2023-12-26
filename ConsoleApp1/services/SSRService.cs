@@ -1,12 +1,157 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MyHTTPServer.services
+
+namespace MyHTTPServer.services;
+
+public static class TemplateStringExtension
 {
-    internal class SSRService
+    public static string Substitute(this string template, object? obj)
     {
+        if (obj is null) throw new ArgumentNullException();
+
+        var result = template;
+
+        while (TemplateRegexes.PropertyTemplateRegex.IsMatch(result))
+            result = result.SubstituteProperty(obj);
+
+        while (TemplateRegexes.FullIfTemplateRegex.IsMatch(result))
+            result = result.SubstituteIfConstruction(obj);
+
+        while (TemplateRegexes.FullForTemplateRegex.IsMatch(result))
+            result = result.SubstituteForConstruction(obj);
+
+
+        return result;
+    }
+
+    private static string SubstituteProperty(this string template, object obj)
+    {
+        var result = template;
+        try
+        {
+            var propertyTemplate = TemplateRegexes.PropertyTemplateRegex.Match(result).Value;
+            var propertyName = propertyTemplate[2..^1];
+            var propertyValue = obj.GetType().GetProperty(propertyName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)?.GetValue(obj)?.ToString();
+            result = result.Replace(propertyTemplate, propertyValue);
+        }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+        return result;
+    }
+
+    private static string SubstituteIfConstruction(this string template, object obj)
+    {
+        var result = template;
+        try
+        {
+            var ifTemplate = TemplateRegexes.IfTemplateRegex.Match(template).Value[5..];
+            var thenValue = TemplateRegexes.ThenTemplateRegex.Match(template).Value[6..^1];
+            var elseValue = TemplateRegexes.ElseTemplateRegex.Match(template).Value[6..^1];
+
+            var fullIfTemplate = TemplateRegexes.FullIfTemplateRegex.Match(template).Value;
+
+            var propertyName = new Regex(@"\w*").Match(ifTemplate).Value;
+
+            var compareItem1 = (double?)obj.GetType()
+                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase)?.GetValue(obj);
+
+            var comparer = TemplateRegexes.BoolExpressionDictionary.Keys.Where(x => ifTemplate.Contains(x)).Max() ?? "";
+            var compareItem2 = double.Parse(new Regex(@"\d*").Matches(ifTemplate).FirstOrDefault(x => x.Value != "")?.Value!);
+
+            var ifExpressionResult = TemplateRegexes.BoolExpressionDictionary[comparer](compareItem1, compareItem2);
+
+            var resultValue = ifExpressionResult ? thenValue : elseValue;
+            result = template.Replace(fullIfTemplate, resultValue);
+        }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+        return result;
+    }
+
+    private static string SubstituteForConstruction(this string template, object obj)
+    {
+        var result = template;
+        try
+        {
+            var fullForTemplate = TemplateRegexes.FullForTemplateRegex.Match(template).Value;
+            var forTemplate = TemplateRegexes.ForTemplateRegex.Match(fullForTemplate).Value[1..^1];
+            var forBodyTemplate = fullForTemplate[(forTemplate.Length + 4)..^1];
+            var forPropertiesTemplate = TemplateRegexes.ForPropertyTemplate.Matches(fullForTemplate).Select(x => x.Value).ToArray();
+            var forCollectionTemplate = forTemplate.Split().Last();
+
+            var templateStart = template.Split(fullForTemplate).First();
+            var templateEnd = template.Split(fullForTemplate).Last();
+
+            template = template.Replace(fullForTemplate, "");
+
+            var templateBuilder = new StringBuilder(templateStart);
+
+            var collection = obj.GetType()
+                .GetProperty(forCollectionTemplate, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)?
+                .GetValue(obj) as IEnumerable<object> ?? new List<object>();
+            var propertyNameRegex = new Regex(@"\..*");
+
+            foreach (var item in collection)
+            {
+                string forBody = forBodyTemplate;
+                foreach (var propertyTemplate in forPropertiesTemplate)
+                {
+                    var propertyName = propertyNameRegex.Match(propertyTemplate).Value[1..^1];
+                    var propertyValue = item.GetType()
+                        .GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase)?
+                        .GetValue(item)?.ToString() ?? string.Empty;
+
+                    forBody = forBody.Replace(propertyTemplate, propertyValue);
+                }
+
+                templateBuilder.AppendFormat("{0}\n", forBody);
+            }
+
+            templateBuilder.Append(templateEnd);
+            result = templateBuilder.ToString();
+        }
+        catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+        return result;
+    }
+}
+
+public static class TemplateRegexes
+{
+    public static readonly Regex PropertyTemplateRegex;
+    public static readonly Regex IfTemplateRegex;
+    public static readonly Regex ThenTemplateRegex;
+    public static readonly Regex ElseTemplateRegex;
+    public static readonly Regex FullIfTemplateRegex;
+    public static readonly Regex FullForTemplateRegex;
+    public static readonly Regex ForTemplateRegex;
+    public static readonly Regex ForPropertyTemplate;
+    public static Dictionary<string, Func<IComparable?, IComparable?, bool>> BoolExpressionDictionary;
+
+    static TemplateRegexes()
+    {
+        PropertyTemplateRegex = new Regex(@"@{\w*}");
+        IfTemplateRegex = new Regex(@"@{if\(.*\)}");
+        ThenTemplateRegex = new Regex(@"@then{.\w*}");
+        ElseTemplateRegex = new Regex(@"@else{\w*}");
+        FullIfTemplateRegex = new Regex(@"@{if(.*)}");
+        FullForTemplateRegex = new Regex("@for(.*){.*}");
+        ForTemplateRegex = new Regex(@"@for\(.*\)");
+        ForPropertyTemplate = new Regex(@"@{\w*.\w*}");
+        BoolExpressionDictionary = new Dictionary<string, Func<IComparable?, IComparable?, bool>>()
+        {
+            { ">", (x,y) => x?.CompareTo(y) > 0},
+            {"<", (x,y) => x?.CompareTo(y) < 0},
+            {"<=", (x,y) => x?.CompareTo(y) <= 0},
+            {">=", (x,y) => x?.CompareTo(y) >= 0},
+            {"==", (x,y) => x?.CompareTo(y) == 0}
+        };
     }
 }

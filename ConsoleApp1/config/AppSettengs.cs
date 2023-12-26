@@ -11,7 +11,6 @@ namespace MyHTTPServer.config
         public int Port { get; set; }
         public string Address { get; set; }
         public string StaticFilePath { get; set; }
-        public string EmailAdress { get; set; }
-        public string EmailPassword { get; set; }
+        public string ConnectionString { get; set; }
     }
 }
